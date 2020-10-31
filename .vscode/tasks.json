@@ -1,0 +1,130 @@
+{
+    "version": "2.0.0",
+    "runner": "terminal",
+    "tasks": [
+        {
+            "windows": {
+                "command": ".vscode\\build.bat"
+            },
+            "linux": {
+                "command": ".vscode/buildlinux.sh"
+            },
+            "osx": {
+                "command": ".vscode/build.sh"
+            },
+            "args": [
+                "${command:rad4.extensionpath}",
+                "${workspaceFolder}",
+                "${command:rad4.tms.getcurrentproject}",
+                "${command:rad4.tms.getcurrentproject.html}",
+                "${command:rad4.getsettingsjsonpath}",
+                "${command:rad4.tms.setdebugconfig}"
+            ],
+            "type": "shell",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "label": "InternalBuild",
+            "problemMatcher": [{
+                "owner": "external",
+                "fileLocation": ["autoDetect", "${workspaceRoot}"],
+                "severity": "error",
+                "pattern": {
+                    "regexp": "^(.*)\\((\\d+),\\s+(\\d+)\\)\\s+(Error):\\s+(.*)$",
+                    "file": 1, 
+                    "line": 2,
+                    "message": 5
+                }
+            },
+            {
+                "owner": "external",
+                "fileLocation": ["autoDetect", "${workspaceRoot}"],
+                "severity": "warning",
+                "pattern": {
+                    "regexp": "^(.*)\\((\\d+),\\s+(\\d+)\\)\\s+(Warning):\\s+(.*)$",
+                    "file": 1, 
+                    "line": 2,
+                    "message": 5
+                }
+            }        ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "windows": {
+                "command": ".vscode\\build.bat"
+            },
+            "linux": {
+                "command": ".vscode/buildlinux.sh"
+            },
+            "osx": {
+                "command": ".vscode/build.sh"
+            },
+            "args": [
+                "${command:rad4.extensionpath}",
+                "${workspaceFolder}",
+                "${command:rad4.tms.getcurrentproject}",
+                "${command:rad4.tms.getcurrentproject.html}",
+                "${command:rad4.getsettingsjsonpath}",
+                "${command:rad4.tms.setreleaseconfig}"
+            ],
+            "type": "shell",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "label": "InternalBuildWithoutDebugging",
+            "problemMatcher": [{
+                "owner": "external",
+                "fileLocation": ["autoDetect", "${workspaceRoot}"],
+                "severity": "error",
+                "pattern": {
+                    "regexp": "^(.*)\\((\\d+),\\s+(\\d+)\\)\\s+(Error):\\s+(.*)$",
+                    "file": 1, 
+                    "line": 2,
+                    "message": 5
+                }
+            },
+            {
+                "owner": "external",
+                "fileLocation": ["autoDetect", "${workspaceRoot}"],
+                "severity": "warning",
+                "pattern": {
+                    "regexp": "^(.*)\\((\\d+),\\s+(\\d+)\\)\\s+(Warning):\\s+(.*)$",
+                    "file": 1, 
+                    "line": 2,
+                    "message": 5
+                }
+            }        ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label":"Obfuscate",
+            "command": "${command:rad4.terser}"
+        },
+        {
+            "label":"License",
+            "command": "${command:rad4.license}"
+        },
+        {
+            "label":"Build",
+            "dependsOrder": "sequence",            
+            "dependsOn": ["License","InternalBuild","Obfuscate"]
+        },
+        {
+            "label":"Build Without Debugging",
+            "dependsOrder": "sequence",            
+            "dependsOn": ["License","InternalBuildWithoutDebugging","Obfuscate"]
+        }
+    ]
+}
